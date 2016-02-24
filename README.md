@@ -1,18 +1,10 @@
-# Installing on your own machine
+# Install on your own machine
 
-    git clone http://github.com/lowe0292/vim.git ~/.vim
-    ln -s ~/.vim/vimrc ~/.vimrc
+    git clone git@github.com:castle-dev/.vimrc ~/.vim
     cd ~/.vim
-    git submodule update --init --recursive
+    ./setup.sh
 
-To enable JavaScript autocomplete:
-- Build [YouCompleteMe](https://github.com/Valloric/YouCompleteMe#full-installation-guide) after installing dependencies
-- Install tern_for_vim npm dependencies with ```cd ~/.vim/bundle/tern_for_vim/ && npm install```
-
-To enable Ag searches:
-- Install [the_silver-searcher](https://github.com/ggreer/the_silver_searcher)
-
-## Installing plugins as git submodules
+## Add new plugins as git submodules
 
     cd ~/.vim
     mkdir ~/.vim/bundle
@@ -20,13 +12,13 @@ To enable Ag searches:
     git add .
     git commit -m "Install Fugitive.vim bundle as a submodule."
 
-## Upgrading all bundled plugins
+## Upgrade existing plugins
 
     git submodule foreach git pull origin master
 
 ## Keyboard shortcuts
 
-The leader key is set to `,` and several commands have been remapped to avoid conflict with browser shortcuts. This allows me develop from my chromebook. :]
+The leader key is set to `,` and several commands have been remapped to avoid conflict with browser shortcuts. This allows us to develop from chromebook. :]
 
     Shortcut | Action
     --- | ---
@@ -34,7 +26,7 @@ The leader key is set to `,` and several commands have been remapped to avoid co
     `,``b``e` | browse open buffers
     `ctrl` + `p` | fuzzy match file paths in current directory
     `,``,` | refresh cache for fuzzy match
-    `enter` | multi-cursor current word (repeat to select more occurences)
+    `ctrl` + `n` | multi-cursor current word (repeat to select more occurences)
     `ctrl` + `c` | exit mutli-cursor (after `ctrl` + `m`)
     `,``w``s` | split window horizontally
     `,``w``v` | split window vertically
@@ -45,32 +37,34 @@ The leader key is set to `,` and several commands have been remapped to avoid co
     `ctrl` + `k` | move the cursor up one window
     `ctrl` + `h` | move the cursor left one window
     `ctrl` + `l` | move the cursor right one window
-    `,``p` | toggle paste mode
-    `,``c` | toggle copy mode
+    `,``p` | paste from system clipboard
+    `,``y` | copy selection to system clipboard
     `,``u` | toggle undo window
     `,``g``s` | run fugitive's interactive git status
-    `,``g``a` | interactively stage changes since last commit (git add -p)
+    `,``g``a` | add unstaged changes (git add .)
     `,``g``c` | commit staged changes (git commit)
     `,``g``r` | interactively rebase off develop (git rebase -i develop)
     `,``g``d` | compare changes in current file to last commit (git diff)
     `,``g``p` | push current branch to upstream remote (git push)
     `,``g``l` | view recent commits on the current branch (git log)
     `,``g``t` | view recent commits on all branches (git [tree](http://stackoverflow.com/questions/1057564/pretty-git-branch-graphs))
-    `,``f``a` | search accross all files
+    `,``f``a` | global search accross all files in current project
     `,``f``l` | list search results
     `,``f``n` | advance to next search result
     `,``f``p` | return to previous search result
     `,``f``f` | advance to first search result in next file
+    `,``r``s` | focus current it in jasmine unit tests
+    `,``r``b` | focus current describe in jasmine unit tests
+    `,``t``t` | toggle angular test file
+    `,``t``d` | toggle focus of angular test suite
+    `,``t``i` | toggle focus angular test
+    `,``t``s``d` | go to definition (typesript only)
+    `,``t``s``r` | list references (typesript only)
+    `,``t``s``c` | change name (typesript only)
     `z``m` | fold all code in active window (using indentation)
     `z``o` | open highlighted code fold
     `z``c` | close highlighted code block (using indentation)
-    `,``t``t` | open new tab
-    `,``t``n` | open the next tab
-    `,``t``p` | open the previous tab
-    `,``t``f` | open the first tab
-    `,``t``l` | open the last tab
-    `,``t``o` | close all tabs but the current one
 
 ## Configuring tmux to play nicely with vim
 
-Paste [this](https://gist.github.com/lowe0292/af5748926a52948709eb) into your ~/.tmux.conf and the window navigation shortcuts from vim will work accross tmux panes too!
+Install [Castle's tmux config](https://github.com/castle-dev/.tmux.conf#installing-on-mac-or-linux).

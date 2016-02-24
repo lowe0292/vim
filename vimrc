@@ -120,9 +120,6 @@ nmap _zs :set ft=zsh<CR>
 nmap _zs :set ft=mkd<CR>
 nmap _vi :set ft=vim<CR>
 
-" Folding
-nnoremap <Space> za
-" nnoremap <Space> /
 
 " Bubble single lines
 nmap <C-Up> [e
@@ -176,7 +173,6 @@ nmap <silent> <leader>s :set spell!<CR>
 
 " Tab Editing
 " Useful mappings for managing tabs
-map <leader>tt :tabnew<cr>
 map <leader>to :tabonly<cr>
 map <leader>tc :tabclose<cr>
 map <leader>tm :tabmove<cr>
@@ -192,8 +188,8 @@ nnoremap <leader>ft Vatzf
 nnoremap <leader>S ?{<CR>jV/^\s*\}?$<CR>k:sort<CR>:noh<CR>
 
 nmap <Leader>" viwS"
-nmap <leader>p :set paste!<CR>
-nmap <leader>c :set nu!<CR>:set list!<CR>
+map <leader>p "*p
+map <leader>y "*y
 nmap <leader>0 "a
 nmap <leader>1 "b
 nmap <leader>2 "c
@@ -279,8 +275,7 @@ nnoremap <leader>u :GundoToggle<CR>
 " Emmet
 let g:user_emmet_leader_key = '<c-e>'
 "Fugitive Git
-nmap <leader>ga :Git add -p<CR>
-nmap <leader>gA :Git add .<CR>
+nmap <leader>ga :Git add .<CR>
 nmap <leader>gc :Git commit<CR>
 nmap <leader>gr :Git rebase -i 
 nmap <leader>gp :Git push<CR>
@@ -297,9 +292,10 @@ let g:ctrlp_jump_to_buffer = 2 " Jump to tab AND buffer if already open
 let g:ctrlp_split_window = 0 " Prefer windows to tabs
 let g:ctrlp_max_files = 0 " Allow full caching of big projects
 let g:ctrlp_max_depth = 40 " Allow full caching of deep files
+let g:ctrlp_reuse_window = 'nofile'
 nmap <leader><leader> :CtrlPClearCache<CR>
 " MultipleCursors
-let g:multi_cursor_next_key='<C-m>'
+let g:multi_cursor_next_key='<C-n>'
 let g:multi_cursor_quit_key='<C-c>'
 " Markdown
 let g:vim_markdown_initial_foldlevel=1
@@ -317,7 +313,7 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_loc_list_height = 5
 let g:syntastic_mode_map={ 'mode': 'active',
       \ 'active_filetypes': [],
-      \ 'passive_filetypes': ['html'] }
+      \ 'passive_filetypes': ['html', 'ts'] }
 " Tabularize
 if exists(":Tabularize")
   nmap <Leader>a= :Tabularize /=<CR>
@@ -366,3 +362,59 @@ nmap <leader>ff :cnf<cr>
 nmap <leader>fl :copen<cr>
 " Disable folding
 set foldlevel=99
+" Angular test conventions
+nmap <leader>tt :A<cr>
+nmap <leader>ti ,rs
+nmap <leader>td ,rb
+let g:angular_source_directory = 'client/src'
+let g:angular_test_directory = 'client/test/unit'
+" Startup screen
+fun! Start()
+    if argc() || line2byte('$') != -1 || v:progname !~? '^[-gmnq]\=vim\=x\=\%[\.exe]$' || &insertmode
+        return
+    endif
+    enew
+    setlocal
+        \ nolist
+        \ nonumber
+        \ bufhidden=wipe
+        \ buftype=nofile
+        \ nobuflisted
+        \ nocursorcolumn
+        \ nocursorline
+        \ noswapfile
+        \ norelativenumber
+    call append('$', '               `-//-`               ')
+    call append('$', '            .:+oooooo+:.            ')
+    call append('$', '        `-/+oooooo+ooooo+/-`        ')
+    call append('$', '     .:+ooooooo:.``.:+oooooo+:.     ')
+    call append('$', '  `/+oooooo+ooo      +oo++ooooo+/`  ')
+    call append('$', '  -oooo+:.`:oo/      /oo/`.:+oooo-  ')
+    call append('$', '  -oooo-   --`        `.-   .oooo-  ')
+    call append('$', '  -oooo-                    .oooo-  ')
+    call append('$', '  -oooo-                    .oooo-  ')
+    call append('$', '  -oooo-       `-//-`       .oooo-  ')
+    call append('$', '  -oooo-    .:/oooooo+:.    .oooo-  ')
+    call append('$', '  -oooo- `:+oooooooooooo+:` .oooo-  ')
+    call append('$', '  -oooo+:.`.:/oooooooo+:.`.:+oooo-  ')
+    call append('$', '  `/+ooooo+/-``-/++/-``-/+oooooo/`  ')
+    call append('$', '     .:+oooooo+:.``.:/oooooo+:.     ')
+    call append('$', '        `-/oooooo++oooooo/-`        ')
+    call append('$', '            .:+oooooo+:.`           ')
+    call append('$', '               `-//-.               ')
+    " setlocal nomodifiable nomodified
+    nnoremap <buffer><silent> e :enew<CR>
+    nnoremap <buffer><silent> i :enew <bar> startinsert<CR>
+    nnoremap <buffer><silent> o :enew <bar> startinsert<CR>
+endfun
+
+" Run after "doing all the startup stuff"
+autocmd VimEnter * call Start()
+" typescript commands
+if !exists("g:ycm_semantic_triggers")
+  let g:ycm_semantic_triggers = {}
+endif
+let g:ycm_semantic_triggers['typescript'] = ['.']
+nmap <leader>tsd :TsuquyomiDefinition<CR>
+nmap <leader>tsr :TsuquyomiReferences<CR>
+nmap <leader>tsc :!tsc<CR>
